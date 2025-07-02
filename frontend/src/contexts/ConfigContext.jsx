@@ -16,7 +16,7 @@ export const ConfigProvider = ({ children }) => {
     openai: {
       apiKey: '',
       orgId: '',
-      model: 'gpt-4-turbo',
+      model: 'gpt-4.1-nano',
       configured: false
     },
     bot: {
@@ -145,7 +145,7 @@ export const ConfigProvider = ({ children }) => {
       openai: {
         apiKey: '',
         orgId: '',
-        model: 'gpt-4-turbo',
+        model: 'gpt-4.1-nano',
         configured: false
       },
       bot: {

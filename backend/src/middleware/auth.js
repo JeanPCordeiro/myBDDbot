@@ -12,7 +12,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   // En mode développement, créer un utilisateur fictif si pas d'authentification valide
-  if (config.server.nodeEnv === 'development') {
+  if (config.server.nodeEnv === 'production') {
     // Vérifier s'il y a un token dans les headers
     const authHeader = req.headers.authorization;
     
