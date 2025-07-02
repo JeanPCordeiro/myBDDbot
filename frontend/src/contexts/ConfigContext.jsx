@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const ConfigContext = createContext();
@@ -25,7 +25,7 @@ export const ConfigProvider = ({ children }) => {
       detailLevel: 'intermediate'
     },
     api: {
-      baseUrl: 'http://localhost:3001/api'
+      baseUrl: 'https://3001-jeanpcordeiro-mybddbot-41t8nzs1c1e.ws-eu120.gitpod.io/api'
     }
   });
 
@@ -154,7 +154,7 @@ export const ConfigProvider = ({ children }) => {
         detailLevel: 'intermediate'
       },
       api: {
-        baseUrl: 'http://localhost:3001/api'
+        baseUrl: 'https://3001-jeanpcordeiro-mybddbot-41t8nzs1c1e.ws-eu120.gitpod.io/api'
       }
     };
     

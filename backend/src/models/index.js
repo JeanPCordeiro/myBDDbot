@@ -1,6 +1,6 @@
 const Session = require('./Session');
 const Participant = require('./Participant');
-const Message = require('../../../Message');
+const Message = require('./Message');
 const Scenario = require('./Scenario');
 
 // Définition des associations

@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Send, Bot, User, FileText, Users, Settings, ArrowLeft, Copy, Download } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Input } from '../components/ui/input';
+import { ArrowLeft, Bot, Copy, Download, FileText, Send, Settings, User, Users } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
+import { Avatar, AvatarFallback } from '../components/ui/avatar';
 import { Badge } from '../components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Input } from '../components/ui/input';
 import { ScrollArea } from '../components/ui/scroll-area';
 import { Separator } from '../components/ui/separator';
-import { Avatar, AvatarFallback } from '../components/ui/avatar';
-import { useSession } from '../contexts/SessionContext';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { useConfig } from '../contexts/ConfigContext';
-import { toast } from 'sonner';
+import { useSession } from '../contexts/SessionContext';
 
 const SessionPage = () => {
   const { id } = useParams();
@@ -183,12 +183,12 @@ const SessionPage = () => {
                       {messages.map((message) => (
                         <div
                           key={message.id}
-                          className={`flex ${message.sender.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                          className={`flex ${message.sender_type === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
-                          <div className={`flex max-w-[80%] ${message.sender.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <div className={`flex max-w-[80%] ${message.sender_type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                             <Avatar className="h-8 w-8 mx-2">
                               <AvatarFallback>
-                                {message.sender.type === 'bot' ? (
+                                {message.sender_type === 'bot' ? (
                                   <Bot className="h-4 w-4" />
                                 ) : (
                                   <User className="h-4 w-4" />
@@ -196,16 +196,16 @@ const SessionPage = () => {
                               </AvatarFallback>
                             </Avatar>
                             <div className={`rounded-lg p-3 ${
-                              message.sender.type === 'user' 
+                              message.sender_type === 'user' 
                                 ? 'bg-primary text-primary-foreground' 
                                 : 'bg-muted'
                             }`}>
                               <div className="text-sm font-medium mb-1">
-                                {message.sender.name}
+                                {message.sender_type}
                               </div>
                               <div className="whitespace-pre-wrap">{message.content}</div>
                               <div className="text-xs opacity-70 mt-1">
-                                {formatTime(message.timestamp)}
+                                {formatTime(message.created_at)}
                               </div>
                             </div>
                           </div>

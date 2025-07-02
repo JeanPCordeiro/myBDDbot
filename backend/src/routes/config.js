@@ -15,6 +15,52 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
+// POST /api/config/generate-token - Générer un token de test (développement uniquement)
+router.post('/generate-token', asyncHandler(async (req, res) => {
+  const config = require('../../config/config');
+  
+  if (config.server.nodeEnv !== 'development') {
+    return res.status(403).json({
+      success: false,
+      error: 'This endpoint is only available in development mode'
+    });
+  }
+
+  const { name, email, role } = req.body;
+  
+  const user = {
+    userId: `test-user-${Date.now()}`,
+    name: name || 'Test User',
+    email: email || 'test@example.com',
+    role: role || 'business_analyst'
+  };
+
+  const { generateToken } = require('../middleware/auth');
+  const token = generateToken(user);
+
+  res.json({
+    success: true,
+    data: {
+      token,
+      user,
+      expiresIn: config.jwt.expiresIn
+    },
+    message: 'Test token generated successfully'
+  });
+}));
+
+// GET /api/config/test - Test de l'API (sans authentification)
+router.get('/test', asyncHandler(async (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      message: 'API is working correctly',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development'
+    }
+  });
+}));
+
 // GET /api/config/openai - Récupérer la configuration OpenAI (sans clés sensibles)
 router.get('/openai', asyncHandler(async (req, res) => {
   const config = require('../../config/config');
@@ -157,10 +203,9 @@ router.get('/system', asyncHandler(async (req, res) => {
       uptime: process.uptime(),
       memory_usage: process.memoryUsage(),
       database: {
-        type: 'MariaDB',
-        host: config.database.host,
-        port: config.database.port,
-        name: config.database.name
+        type: 'SQLite',
+        storage: config.database.storage,
+        dialect: config.database.dialect
       },
       features: {
         openai_configured: !!config.openai.apiKey,

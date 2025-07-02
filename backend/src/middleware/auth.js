@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
     return next();
   }
 
-  // En mode développement, créer un utilisateur fictif si pas d'authentification
+  // En mode développement, créer un utilisateur fictif si pas d'authentification valide
   if (config.server.nodeEnv === 'development') {
     // Vérifier s'il y a un token dans les headers
     const authHeader = req.headers.authorization;
@@ -19,26 +19,27 @@ const authMiddleware = (req, res, next) => {
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7);
       
-      try {
-        const decoded = jwt.verify(token, config.jwt.secret);
-        req.user = decoded;
-        return next();
-      } catch (error) {
-        return res.status(401).json({
-          error: 'Invalid token',
-          message: error.message
-        });
+      // Vérifier que le token n'est pas vide ou malformé
+      if (token && token !== 'undefined' && token !== 'null' && token.length > 10) {
+        try {
+          const decoded = jwt.verify(token, config.jwt.secret);
+          req.user = decoded;
+          return next();
+        } catch (error) {
+          console.warn('Invalid token in development mode, using default user:', error.message);
+          // En développement, continuer avec l'utilisateur par défaut même si le token est invalide
+        }
       }
-    } else {
-      // Créer un utilisateur de développement par défaut
-      req.user = {
-        userId: 'dev-user-001',
-        name: 'Développeur Test',
-        email: 'dev@example.com',
-        role: 'business_analyst'
-      };
-      return next();
     }
+    
+    // Créer un utilisateur de développement par défaut
+    req.user = {
+      userId: 'dev-user-001',
+      name: 'Développeur Test',
+      email: 'dev@example.com',
+      role: 'business_analyst'
+    };
+    return next();
   }
 
   // En production, exiger une authentification valide
@@ -52,6 +53,13 @@ const authMiddleware = (req, res, next) => {
   }
 
   const token = authHeader.substring(7);
+  
+  if (!token || token === 'undefined' || token === 'null') {
+    return res.status(401).json({
+      error: 'Invalid token',
+      message: 'Token is empty or malformed'
+    });
+  }
   
   try {
     const decoded = jwt.verify(token, config.jwt.secret);

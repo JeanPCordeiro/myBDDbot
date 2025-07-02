@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "bdd-bot-backend",
   "version": "1.0.0",
   "description": "Backend API pour l'application BDD Bot - Facilite les sessions BDD collaboratives avec un bot LLM",
   "main": "src/app.js",
@@ -36,6 +36,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "openai": "^4.77.3",
+    "sequelize": "^6.37.7",
     "socket.io": "^4.8.1",
     "sqlite3": "^5.1.7",
     "uuid": "^11.0.3"
