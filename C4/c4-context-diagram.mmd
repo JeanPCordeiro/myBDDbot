@@ -1,0 +1,33 @@
+graph TB
+    subgraph "Utilisateurs"
+        BA[Business Analyst<br/>Définit les exigences métier<br/>et critères d'acceptation]
+        DEV[Développeur<br/>Implémente les fonctionnalités<br/>selon les spécifications BDD]
+        TEST[Testeur<br/>Valide les scénarios<br/>et critères d'acceptation]
+    end
+    
+    subgraph "Système Principal"
+        BDDBOT[BDD Bot Application<br/>Facilite les sessions BDD<br/>collaboratives avec un bot LLM intelligent]
+    end
+    
+    subgraph "Systèmes Externes"
+        OPENAI[OpenAI API<br/>Service d'intelligence artificielle<br/>pour les capacités LLM du bot]
+        GITHUB[GitHub<br/>Gestion du code source<br/>et CI/CD]
+        AWS[AWS Fargate<br/>Plateforme de déploiement<br/>containerisé]
+    end
+    
+    BA --> BDDBOT
+    DEV --> BDDBOT
+    TEST --> BDDBOT
+    
+    BDDBOT --> OPENAI
+    BDDBOT --> GITHUB
+    BDDBOT --> AWS
+    
+    classDef userClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef systemClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    
+    class BA,DEV,TEST userClass
+    class BDDBOT systemClass
+    class OPENAI,GITHUB,AWS externalClass
+

@@ -1,0 +1,28 @@
+graph TB
+    subgraph "Utilisateurs"
+        USERS[Utilisateurs<br/>Business Analyst<br/>Développeur, Testeur]
+        BROWSER[Navigateur Web<br/>Chrome, Firefox, Safari]
+    end
+    
+    subgraph "BDD Bot Application"
+        WEBAPP[Web Application<br/>React.js<br/>Interface utilisateur pour<br/>les sessions BDD collaboratives]
+        API[API Application<br/>Express.js + SQLite<br/>API REST et WebSocket<br/>avec base de données intégrée]
+    end
+    
+    subgraph "Systèmes Externes"
+        OPENAI[OpenAI API<br/>Service LLM pour<br/>les capacités du bot]
+    end
+    
+    USERS --> BROWSER
+    BROWSER --> WEBAPP
+    WEBAPP --> API
+    API --> OPENAI
+    
+    classDef userClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef containerClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef externalClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    
+    class USERS,BROWSER userClass
+    class WEBAPP,API containerClass
+    class OPENAI externalClass
+

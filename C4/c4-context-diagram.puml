@@ -1,0 +1,27 @@
+@startuml C4_Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagramme de Contexte - BDD Bot Application
+
+Person(ba, "Business Analyst", "Définit les exigences métier et les critères d'acceptation")
+Person(dev, "Développeur", "Implémente les fonctionnalités selon les spécifications BDD")
+Person(tester, "Testeur", "Valide les scénarios et critères d'acceptation")
+
+System(bddBot, "BDD Bot Application", "Facilite les sessions BDD collaboratives avec un bot LLM intelligent")
+
+System_Ext(openai, "OpenAI API", "Service d'intelligence artificielle pour les capacités LLM du bot")
+System_Ext(github, "GitHub", "Gestion du code source et CI/CD")
+System_Ext(aws, "AWS Fargate", "Plateforme de déploiement containerisé")
+
+Rel(ba, bddBot, "Utilise", "Définit les user stories et participe aux sessions")
+Rel(dev, bddBot, "Utilise", "Participe aux sessions et consulte les scénarios générés")
+Rel(tester, bddBot, "Utilise", "Valide les scénarios et critères d'acceptation")
+
+Rel(bddBot, openai, "Utilise", "API calls pour les capacités LLM")
+Rel(bddBot, github, "Intègre", "CI/CD et gestion du code")
+Rel(bddBot, aws, "Déployé sur", "Containers Docker")
+
+@enduml
+

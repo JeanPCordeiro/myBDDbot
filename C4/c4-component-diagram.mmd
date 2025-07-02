@@ -1,0 +1,72 @@
+graph TB
+    subgraph "Frontend"
+        WEBAPP[Web Application<br/>React.js<br/>Interface utilisateur]
+    end
+    
+    subgraph "API Application - Express.js"
+        ROUTER[API Router<br/>Express Router<br/>Routage des requêtes HTTP]
+        WS[WebSocket Handler<br/>Socket.io<br/>Gestion des connexions<br/>temps réel]
+        AUTH[Auth Middleware<br/>Express Middleware<br/>Authentification<br/>et autorisation]
+        
+        subgraph "Controllers"
+            SESSIONCTRL[Session Controller<br/>Express Controller<br/>Gestion des sessions BDD]
+            BOTCTRL[Bot Controller<br/>Express Controller<br/>Interface avec le bot LLM]
+            SCENARIOCTRL[Scenario Controller<br/>Express Controller<br/>Gestion des scénarios Gherkin]
+        end
+        
+        subgraph "Services"
+            SESSIONSVC[Session Service<br/>Business Logic<br/>Logique métier des sessions]
+            BOTENGINE[Bot Engine<br/>Business Logic<br/>Intelligence du bot testeur]
+            OPENAISVC[OpenAI Service<br/>Integration<br/>Interface avec l'API OpenAI]
+            SCENARIOSVC[Scenario Service<br/>Business Logic<br/>Gestion des scénarios]
+        end
+        
+        subgraph "Repositories"
+            SESSIONREPO[Session Repository<br/>Data Access<br/>Accès aux données des sessions]
+            SCENARIOREPO[Scenario Repository<br/>Data Access<br/>Accès aux données des scénarios]
+            CONFIGREPO[Config Repository<br/>Data Access<br/>Accès aux configurations]
+        end
+    end
+    
+    subgraph "External"
+        DB[Base de données<br/>PostgreSQL<br/>Stockage persistant]
+        OPENAI[OpenAI API<br/>Service LLM]
+    end
+    
+    WEBAPP --> ROUTER
+    WEBAPP --> WS
+    
+    ROUTER --> AUTH
+    ROUTER --> SESSIONCTRL
+    ROUTER --> BOTCTRL
+    ROUTER --> SCENARIOCTRL
+    
+    WS --> SESSIONSVC
+    WS --> BOTENGINE
+    
+    SESSIONCTRL --> SESSIONSVC
+    BOTCTRL --> BOTENGINE
+    SCENARIOCTRL --> SCENARIOSVC
+    
+    SESSIONSVC --> SESSIONREPO
+    SCENARIOSVC --> SCENARIOREPO
+    BOTENGINE --> OPENAISVC
+    BOTENGINE --> CONFIGREPO
+    
+    SESSIONREPO --> DB
+    SCENARIOREPO --> DB
+    CONFIGREPO --> DB
+    OPENAISVC --> OPENAI
+    
+    classDef frontendClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef controllerClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef serviceClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef repoClass fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef externalClass fill:#ffebee,stroke:#c62828,stroke-width:2px
+    
+    class WEBAPP frontendClass
+    class ROUTER,WS,AUTH,SESSIONCTRL,BOTCTRL,SCENARIOCTRL controllerClass
+    class SESSIONSVC,BOTENGINE,OPENAISVC,SCENARIOSVC serviceClass
+    class SESSIONREPO,SCENARIOREPO,CONFIGREPO repoClass
+    class DB,OPENAI externalClass
+

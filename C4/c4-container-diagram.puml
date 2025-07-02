@@ -1,0 +1,26 @@
+@startuml C4_Container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagramme de Containers - BDD Bot Application
+
+Person(users, "Utilisateurs", "Business Analyst, Développeur, Testeur")
+
+System_Boundary(bddBot, "BDD Bot Application") {
+    Container(webapp, "Web Application", "React.js", "Interface utilisateur pour les sessions BDD collaboratives")
+    Container(api, "API Application", "Express.js", "API REST et WebSocket pour la logique métier")
+    Container(database, "Base de données", "PostgreSQL", "Stockage des sessions, scénarios et configurations")
+}
+
+System_Ext(openai, "OpenAI API", "Service LLM pour les capacités du bot")
+System_Ext(browser, "Navigateur Web", "Chrome, Firefox, Safari")
+
+Rel(users, browser, "Utilise")
+Rel(browser, webapp, "Utilise", "HTTPS")
+Rel(webapp, api, "Appelle", "JSON/HTTPS, WebSocket")
+Rel(api, database, "Lit/Écrit", "SQL/TCP")
+Rel(api, openai, "Appelle", "HTTPS/JSON")
+
+@enduml
+
